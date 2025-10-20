@@ -1,31 +1,30 @@
-"use client";
+"use client"
 
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
-import { useState } from "react";
-import { C1Component, ThemeProvider } from "@thesysai/genui-sdk";
-import "@crayonai/react-ui/styles/index.css";
+import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
+import { useState } from "react"
+import { C1Component, ThemeProvider } from "@thesysai/genui-sdk"
 
 export default function Page() {
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
-  });
-  const [input, setInput] = useState("");
+  })
+  const [input, setInput] = useState("")
 
   const handleC1Action = ({
     llmFriendlyMessage,
     humanFriendlyMessage,
   }: {
-    llmFriendlyMessage: string;
-    humanFriendlyMessage: string;
+    llmFriendlyMessage: string
+    humanFriendlyMessage: string
   }) => {
     sendMessage({
       text: llmFriendlyMessage,
       metadata: { humanFriendlyMessage },
-    });
-  };
+    })
+  }
 
   return (
     <ThemeProvider>
@@ -37,26 +36,19 @@ export default function Page() {
                 const text = message.parts
                   .filter((part) => part.type === "text")
                   .map((part) => part.text)
-                  .join("");
+                  .join("")
                 return (
                   <div key={message.id} className="p-3 rounded-lg bg-gray-50">
                     {message.role === "user" ? (
                       <div className="text-sm text-gray-700">
-                        {(
-                          message.metadata as
-                            | { humanFriendlyMessage?: string }
-                            | undefined
-                        )?.humanFriendlyMessage || text}
+                        {(message.metadata as { humanFriendlyMessage?: string } | undefined)?.humanFriendlyMessage ||
+                          text}
                       </div>
                     ) : (
-                      <C1Component
-                        isStreaming={status === "streaming"}
-                        c1Response={text}
-                        onAction={handleC1Action}
-                      />
+                      <C1Component isStreaming={status === "streaming"} c1Response={text} onAction={handleC1Action} />
                     )}
                   </div>
-                );
+                )
               })}
             </div>
           </div>
@@ -66,10 +58,10 @@ export default function Page() {
           <div className="max-w-lg mx-auto">
             <form
               onSubmit={(e) => {
-                e.preventDefault();
+                e.preventDefault()
                 if (input.trim()) {
-                  sendMessage({ text: input });
-                  setInput("");
+                  sendMessage({ text: input })
+                  setInput("")
                 }
               }}
               className="flex gap-2"
@@ -93,5 +85,5 @@ export default function Page() {
         </div>
       </div>
     </ThemeProvider>
-  );
+  )
 }

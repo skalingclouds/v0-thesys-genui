@@ -1,29 +1,20 @@
-"use client";
+"use client"
 
-import { useCompletion } from "@ai-sdk/react";
-import { C1Component, ThemeProvider } from "@thesysai/genui-sdk";
-import "@crayonai/react-ui/styles/index.css";
+import { useCompletion } from "@ai-sdk/react"
+import { C1Component, ThemeProvider } from "@thesysai/genui-sdk"
 
 export default function Page() {
-  const {
-    completion,
-    isLoading,
-    complete,
-    input,
-    setInput,
-    handleSubmit,
-    handleInputChange,
-  } = useCompletion({
+  const { completion, isLoading, complete, input, setInput, handleSubmit, handleInputChange } = useCompletion({
     api: "/api/completion",
-  });
+  })
 
   const onC1Action = (action: {
-    llmFriendlyMessage: string;
-    humanFriendlyMessage: string;
+    llmFriendlyMessage: string
+    humanFriendlyMessage: string
   }) => {
-    setInput(action.humanFriendlyMessage);
-    complete(action.llmFriendlyMessage);
-  };
+    setInput(action.humanFriendlyMessage)
+    complete(action.llmFriendlyMessage)
+  }
 
   return (
     <ThemeProvider>
@@ -47,13 +38,9 @@ export default function Page() {
             </button>
           </form>
 
-          <C1Component
-            c1Response={completion}
-            isStreaming={isLoading}
-            onAction={onC1Action}
-          />
+          <C1Component c1Response={completion} isStreaming={isLoading} onAction={onC1Action} />
         </div>
       </div>
     </ThemeProvider>
-  );
+  )
 }
